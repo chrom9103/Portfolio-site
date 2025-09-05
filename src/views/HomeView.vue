@@ -1,8 +1,29 @@
+<template>
+  <div class="container">
+    <h1>JavaScript PlayGround</h1>
+    <div class="actions">
+      <button @click="runCode">Run Code</button>
+      <button @click="downloadCode">Download Code</button>
+    </div>
+    <div class="code-editor">
+      <div id="editor-container"></div>
+    </div>
+    <div v-if="output" class="output-area success">
+      <h3>Output:</h3>
+      <pre>{{ output }}</pre>
+    </div>
+    <div v-if="error" class="output-area error">
+      <h3>Error:</h3>
+      <pre>{{ error }}</pre>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
   import * as monaco from 'monaco-editor';
 
-  const code = ref('console.log("Hello, world!");');
+  const code = ref(`console.log('Hello, world!');`);
   const output = ref('');
   const error = ref('');
   let monacoEditor: monaco.editor.IStandaloneCodeEditor;
@@ -16,7 +37,7 @@
     });
 
     monacoEditor.onDidChangeModelContent(() => {
-    code.value = monacoEditor.getValue();
+      code.value = monacoEditor.getValue();
     });
   });
 
@@ -27,7 +48,6 @@
     const originalLog = console.log;
     let tempOutput = '';
 
-    // console.log を一時的に上書きして出力をキャプチャ
     console.log = (...args) => {
       tempOutput += args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ') + '\n';
     };
@@ -44,25 +64,17 @@
       console.log = originalLog;
     }
   };
-</script>
 
-<template>
-  <div class="container">
-    <h1>JavaScript PlayGround</h1>
-    <div class="code-editor">
-      <div id="editor-container"></div>
-    </div>
-    <button @click="runCode">Run Code</button>
-    <div v-if="output" class="output-area success">
-      <h3>Output:</h3>
-      <pre>{{ output }}</pre>
-    </div>
-    <div v-if="error" class="output-area error">
-      <h3>Error:</h3>
-      <pre>{{ error }}</pre>
-    </div>
-  </div>
-</template>
+  const downloadCode = () => {
+    const blob = new Blob([code.value], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'playground-code.js';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
 
 <style scoped>
 .container {
@@ -76,6 +88,12 @@ h1 {
   text-align: center;
   color: #2c3e50;
 }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 .code-editor {
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -87,8 +105,7 @@ h1 {
   height: 300px;
 }
 button {
-  display: block;
-  width: 100%;
+  flex-grow: 1;
   padding: 10px;
   background-color: #f7df1e;
   color: white;
