@@ -1,9 +1,24 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import * as monaco from 'monaco-editor';
 
-  const code = ref(`console.log('Hello, world!');`);
+  const code = ref('console.log("Hello, world!");');
   const output = ref('');
   const error = ref('');
+  let monacoEditor: monaco.editor.IStandaloneCodeEditor;
+
+  onMounted(() => {
+    monacoEditor = monaco.editor.create(document.getElementById('editor-container')!, {
+      value: code.value,
+      language: 'javascript',
+      theme: 'vs-right',
+      automaticLayout: true,
+    });
+
+    monacoEditor.onDidChangeModelContent(() => {
+    code.value = monacoEditor.getValue();
+    });
+  });
 
   const runCode = () => {
     output.value = '';
@@ -35,7 +50,7 @@
   <div class="container">
     <h1>JavaScript PlayGround</h1>
     <div class="code-editor">
-      <textarea v-model="code" placeholder="Write your JavaScript code here..."></textarea>
+      <div id="editor-container"></div>
     </div>
     <button @click="runCode">Run Code</button>
     <div v-if="output" class="output-area success">
@@ -67,22 +82,15 @@ h1 {
   border-radius: 8px;
   overflow: hidden;
 }
-textarea {
+#editor-container {
   width: 100%;
   height: 300px;
-  border: none;
-  padding: 15px;
-  box-sizing: border-box;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
-  resize: vertical;
-  background-color: #f5f5f5;
 }
 button {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #42b983;
+  background-color: #f7df1e;
   color: white;
   border: none;
   border-radius: 8px;
@@ -91,7 +99,7 @@ button {
   transition: background-color 0.3s;
 }
 button:hover {
-  background-color: #3aa675;
+  background-color: #f7df1e;
 }
 .output-area {
   margin-top: 20px;
