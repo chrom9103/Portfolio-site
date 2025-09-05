@@ -9,7 +9,7 @@
       <div class="file-explorer">
         <div class="file-header">
           <h3>Files</h3>
-          <button @click="addNewFile">+</button>
+          <button @click="addNewFile" class="add-file-btn">+</button>
         </div>
         <ul>
           <li
@@ -32,6 +32,7 @@
               @keyup.enter="finishRename"
               v-rename-focus
             />
+            <button @click.stop="deleteFile(file.id)" class="delete-btn">×</button>
           </li>
         </ul>
       </div>
@@ -47,13 +48,23 @@
       <h3>Error:</h3>
       <pre>{{ error }}</pre>
     </div>
+
+    <div v-if="showConfirmPopup" class="confirm-overlay">
+      <div class="confirm-popup">
+        <p>{{ popupMessage }}</p>
+        <div class="popup-actions">
+          <button @click="confirmAction(true)" class="confirm-ok-btn">OK</button>
+          <button @click="confirmAction(false)" class="confirm-cancel-btn">キャンセル</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import * as monaco from 'monaco-editor';
-import { v4 as uuidv4 } from 'uuid'; // npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 const files = ref([
   {
@@ -68,6 +79,11 @@ const output = ref('');
 const error = ref('');
 const editingFileId = ref<string | null>(null);
 let monacoEditor: monaco.editor.IStandaloneCodeEditor;
+
+// カスタム確認ポップアップ用の状態
+const showConfirmPopup = ref(false);
+const popupMessage = ref('');
+let popupResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null;
 
 watch(activeFileId, (newFileId, oldFileId) => {
   if (monacoEditor && oldFileId) {
@@ -140,7 +156,7 @@ const downloadCode = () => {
 const addNewFile = () => {
   const newFile = {
     id: uuidv4(),
-    name: `new-file-${files.value.length}.js`,
+    name: `new-file.js`,
     content: `console.log('Hello world!');`,
   };
   files.value.push(newFile);
@@ -162,6 +178,43 @@ const finishRename = () => {
     file.name = 'untitled.js';
   }
   editingFileId.value = null;
+};
+
+const deleteFile = async (fileId: string) => {
+  if (files.value.length <= 1) {
+    alert('少なくとも1つのファイルが必要です。');
+    return;
+  }
+  
+  const fileToDelete = files.value.find(f => f.id === fileId);
+  if (!fileToDelete) return;
+
+  // カスタムポップアップを表示してユーザーの確認を待つ
+  popupMessage.value = `本当にファイル「${fileToDelete.name}」を削除してもよろしいですか？`;
+  showConfirmPopup.value = true;
+
+  const confirmed = await new Promise<boolean>(resolve => {
+    popupResolve = resolve;
+  });
+
+  if (confirmed) {
+    const fileIndex = files.value.findIndex(f => f.id === fileId);
+    if (fileIndex > -1) {
+      files.value.splice(fileIndex, 1);
+      if (activeFileId.value === fileId) {
+        activeFileId.value = files.value[0].id;
+      }
+    }
+  }
+};
+
+// カスタムポップアップのOK/キャンセル処理
+const confirmAction = (result: boolean) => {
+  showConfirmPopup.value = false;
+  if (popupResolve) {
+    popupResolve(result);
+    popupResolve = null;
+  }
 };
 
 const vRenameFocus = {
@@ -235,12 +288,27 @@ h1 {
   flex-grow: 1;
 }
 .file-explorer li input {
-  width: 100%;
+  flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 2px 4px;
-  background-color: #aaaaaa;
+  background-color: white;
+  color: blue;
+}
+.delete-btn {
+  background-color: transparent;
+  color: #c62828;
+  border: none;
+  padding: 4px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.delete-btn:hover {
+  color: #ff5252;
 }
 .code-editor {
   flex-grow: 1;
@@ -287,5 +355,70 @@ button:hover {
 }
 pre {
   margin: 0;
+}
+
+/* カスタム確認ポップアップのスタイル */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-popup {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.confirm-popup p {
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.confirm-ok-btn, .confirm-cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.confirm-ok-btn {
+  background-color: #4CAF50;
+  color: white;
+  width: 120px;
+}
+
+.confirm-ok-btn:hover {
+  background-color: #45a049;
+}
+
+.confirm-cancel-btn {
+  background-color: #f44336;
+  color: white;
+  width: 120px;
+}
+
+.confirm-cancel-btn:hover {
+  background-color: #da190b;
 }
 </style>
