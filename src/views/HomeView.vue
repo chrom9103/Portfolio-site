@@ -40,13 +40,10 @@
         <div id="editor-container"></div>
       </div>
     </div>
-    <div v-if="output" class="output-area success">
-      <h3>Output:</h3>
-      <pre>{{ output }}</pre>
-    </div>
-    <div v-if="error" class="output-area error">
-      <h3>Error:</h3>
-      <pre>{{ error }}</pre>
+    
+    <div class="terminal-area">
+      <h3>Terminal:</h3>
+      <pre :class="{ error: error, success: !error }">{{ output || error }}</pre>
     </div>
 
     <div v-if="showConfirmPopup" class="confirm-overlay">
@@ -80,7 +77,6 @@ const error = ref('');
 const editingFileId = ref<string | null>(null);
 let monacoEditor: monaco.editor.IStandaloneCodeEditor;
 
-// カスタム確認ポップアップ用の状態
 const showConfirmPopup = ref(false);
 const popupMessage = ref('');
 let popupResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null;
@@ -92,7 +88,6 @@ watch(activeFileId, (newFileId, oldFileId) => {
       oldFile.content = monacoEditor.getValue();
     }
   }
-
   const newFile = files.value.find(f => f.id === newFileId);
   if (newFile && monacoEditor) {
     monacoEditor.setValue(newFile.content);
@@ -185,14 +180,11 @@ const deleteFile = async (fileId: string) => {
     alert('少なくとも1つのファイルが必要です。');
     return;
   }
-  
   const fileToDelete = files.value.find(f => f.id === fileId);
   if (!fileToDelete) return;
 
-  // カスタムポップアップを表示してユーザーの確認を待つ
   popupMessage.value = `本当にファイル「${fileToDelete.name}」を削除してもよろしいですか？`;
   showConfirmPopup.value = true;
-
   const confirmed = await new Promise<boolean>(resolve => {
     popupResolve = resolve;
   });
@@ -208,7 +200,6 @@ const deleteFile = async (fileId: string) => {
   }
 };
 
-// カスタムポップアップのOK/キャンセル処理
 const confirmAction = (result: boolean) => {
   showConfirmPopup.value = false;
   if (popupResolve) {
@@ -225,6 +216,37 @@ const vRenameFocus = {
 </script>
 
 <style scoped>
+/* --- ターミナル表示エリア --- */
+.terminal-area {
+  margin-top: 20px;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.terminal-area h3 {
+  margin-top: 0;
+  color: #f0f0f0;
+}
+
+.terminal-area pre {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.terminal-area pre.success {
+  color: white;
+}
+
+.terminal-area pre.error {
+  color: #ff5555;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -293,7 +315,8 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 2px 4px;
-  background-color: rgb(179, 214, 219);
+  background-color: white;
+  color: blue;
 }
 .delete-btn {
   background-color: transparent;
@@ -330,30 +353,7 @@ button {
   transition: background-color 0.3s;
 }
 button:hover {
-  background-color: #f7df1e;
-}
-.output-area {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.output-area h3 {
-  margin-top: 0;
-}
-.success {
-  background-color: #e8f5e9;
-  border: 1px solid #c8e6c9;
-  color: #2e7d32;
-}
-.error {
-  background-color: #ffebee;
-  border: 1px solid #ffcdd2;
-  color: #c62828;
-}
-pre {
-  margin: 0;
+  background-color: #e7d01c;
 }
 
 /* カスタム確認ポップアップのスタイル */
@@ -404,7 +404,6 @@ pre {
 .confirm-ok-btn {
   background-color: #4CAF50;
   color: white;
-  width: 120px;
 }
 
 .confirm-ok-btn:hover {
@@ -414,7 +413,6 @@ pre {
 .confirm-cancel-btn {
   background-color: #f44336;
   color: white;
-  width: 120px;
 }
 
 .confirm-cancel-btn:hover {
