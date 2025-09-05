@@ -40,13 +40,13 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import * as monaco from 'monaco-editor';
-import { v4 as uuidv4 } from 'uuid'; // npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 const files = ref([
   {
     id: uuidv4(),
     name: 'main.js',
-    content: `console.log('Hello from main.js!');\n\n// You can add more files and switch between them.`,
+    content: `console.log('Hello world!');`,
   },
 ]);
 const activeFileId = ref(files.value[0].id);
@@ -132,7 +132,7 @@ const addNewFile = () => {
   const newFile = {
     id: uuidv4(),
     name: `new-file-${files.value.length}.js`,
-    content: `console.log('Hello from new file!');`,
+    content: `console.log('Hello world!');`,
   };
   files.value.push(newFile);
   switchFile(newFile.id);
@@ -145,7 +145,7 @@ const switchFile = (fileId: string) => {
 
 <style scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -167,7 +167,7 @@ h1 {
   margin-bottom: 20px;
 }
 .file-explorer {
-  width: 200px;
+  width: 150px;
   background-color: #f0f0f0;
   border-radius: 8px;
   padding: 10px;
