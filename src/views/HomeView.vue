@@ -293,8 +293,7 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 2px 4px;
-  background-color: white;
-  color: blue;
+  background-color: rgb(179, 214, 219);
 }
 .delete-btn {
   background-color: transparent;
