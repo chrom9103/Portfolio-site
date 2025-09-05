@@ -33,7 +33,7 @@
 
 <template>
   <div class="container">
-    <h1>JavaScript Online Executor</h1>
+    <h1>JavaScript PlayGround</h1>
     <div class="code-editor">
       <textarea v-model="code" placeholder="Write your JavaScript code here..."></textarea>
     </div>
