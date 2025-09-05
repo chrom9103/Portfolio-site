@@ -18,7 +18,20 @@
             :class="{ active: file.id === activeFileId }"
             @click="switchFile(file.id)"
           >
-            <span>{{ file.name }}</span>
+            <span
+              v-if="editingFileId !== file.id"
+              @dblclick.stop="startRename(file.id)"
+            >
+              {{ file.name }}
+            </span>
+            <input
+              v-else
+              type="text"
+              v-model="file.name"
+              @blur="finishRename"
+              @keyup.enter="finishRename"
+              v-rename-focus
+            />
           </li>
         </ul>
       </div>
@@ -38,9 +51,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import * as monaco from 'monaco-editor';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'; // npm install uuid
 
 const files = ref([
   {
@@ -53,11 +66,10 @@ const activeFileId = ref(files.value[0].id);
 const code = ref(files.value[0].content);
 const output = ref('');
 const error = ref('');
+const editingFileId = ref<string | null>(null);
 let monacoEditor: monaco.editor.IStandaloneCodeEditor;
 
-// ファイルの切り替えを検知してエディタを更新
 watch(activeFileId, (newFileId, oldFileId) => {
-  // 現在のファイルの内容を保存
   if (monacoEditor && oldFileId) {
     const oldFile = files.value.find(f => f.id === oldFileId);
     if (oldFile) {
@@ -65,7 +77,6 @@ watch(activeFileId, (newFileId, oldFileId) => {
     }
   }
 
-  // 新しいファイルの内容をエディタにロード
   const newFile = files.value.find(f => f.id === newFileId);
   if (newFile && monacoEditor) {
     monacoEditor.setValue(newFile.content);
@@ -81,9 +92,7 @@ onMounted(() => {
   });
 
   monacoEditor.onDidChangeModelContent(() => {
-    // エディタの内容変更を`code` refに同期
     code.value = monacoEditor.getValue();
-    // 現在アクティブなファイルの内容も更新
     const activeFile = files.value.find(f => f.id === activeFileId.value);
     if (activeFile) {
       activeFile.content = code.value;
@@ -139,7 +148,26 @@ const addNewFile = () => {
 };
 
 const switchFile = (fileId: string) => {
+  if (editingFileId.value === fileId) return;
   activeFileId.value = fileId;
+};
+
+const startRename = (fileId: string) => {
+  editingFileId.value = fileId;
+};
+
+const finishRename = () => {
+  const file = files.value.find(f => f.id === editingFileId.value);
+  if (file && file.name.trim() === '') {
+    file.name = 'untitled.js';
+  }
+  editingFileId.value = null;
+};
+
+const vRenameFocus = {
+  mounted: (el: HTMLElement) => {
+    el.focus();
+  },
 };
 </script>
 
@@ -167,7 +195,7 @@ h1 {
   margin-bottom: 20px;
 }
 .file-explorer {
-  width: 150px;
+  width: 250px;
   background-color: #f0f0f0;
   border-radius: 8px;
   padding: 10px;
@@ -193,6 +221,8 @@ h1 {
   border-radius: 4px;
   margin-bottom: 4px;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
 }
 .file-explorer li:hover {
   background-color: #e0e0e0;
@@ -200,6 +230,17 @@ h1 {
 .file-explorer li.active {
   background-color: #ddd;
   font-weight: bold;
+}
+.file-explorer li span {
+  flex-grow: 1;
+}
+.file-explorer li input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 4px;
+  background-color: #aaaaaa;
 }
 .code-editor {
   flex-grow: 1;
