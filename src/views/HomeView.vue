@@ -1,17 +1,32 @@
 <template>
   <div class="container">
-    <h1>JavaScript PlayGround</h1>
-    <div class="actions">
-      <button @click="runCode">Run Code</button>
-      <button @click="downloadCode">Download Code</button>
+    <div class="activity-bar">
+      <div class="activity-icon-group">
+        <button @click="switchSidebar('explorer')" class="activity-icon-item" :class="{ active: sidebarState.explorer }" title="エクスプローラー">
+
+        </button>
+        <button @click="switchSidebar('search')" class="activity-icon-item" :class="{ active: sidebarState.search }" title="検索">
+
+        </button>
+        <button @click="switchSidebar('runcode')" class="activity-icon-item" :class="{ active: sidebarState.runcode }" title="拡張機能">
+
+        </button>
+        <button @click="switchSidebar('git')" class="activity-icon-item" :class="{ active: sidebarState.git }" title="ソース管理">
+
+        </button>
+      </div>
     </div>
-    <div class="main-content">
-      <div class="file-explorer">
+
+    <div class="side-bar">
+      <div v-if="sidebarState.explorer" class="file-explorer">
         <div class="file-header">
-          <h3>Files</h3>
-          <button @click="addNewFile" class="add-file-btn">+</button>
+          <h3>エクスプローラー</h3>
         </div>
-        <ul>
+        <div class="files-title">
+          <p>∨ JS_PlayGround</p>
+          <button @click="addNewFile" class="add-file-btn">＋</button>
+        </div>
+        <ul class="file-list">
           <li
             v-for="file in files"
             :key="file.id"
@@ -36,17 +51,48 @@
           </li>
         </ul>
       </div>
-      <div class="code-editor">
-        <div id="editor-container"></div>
+
+      <div v-else-if="sidebarState.search" class="sidebar-content">
+        <h3>検索</h3>
+        <p>この機能は現在開発中です。</p>
+      </div>
+
+      <div v-else-if="sidebarState.runcode" class="sidebar-content">
+        <h3>実行とデバッグ</h3>
+        <p>この機能は現在開発中です。</p>
+      </div>
+
+      <div v-else-if="sidebarState.git" class="sidebar-content">
+        <h3>ソース管理</h3>
+        <p>この機能は現在開発中です。</p>
       </div>
     </div>
-    
-    <div class="terminal-area">
-      <h3>Terminal:</h3>
-      <div class="output-container" ref="terminalContainer">
-        <pre v-for="(line, index) in terminalOutput" :key="index" :class="line.type">
-          {{ line.text }}
-        </pre>
+
+    <div class="main-editor-area">
+      <div class="editor-header">
+        <div class="tab-container">
+          <div v-for="file in files" :key="file.id" :class="{ 'editor-tab': true, active: file.id === activeFileId }" @click="switchFile(file.id)">
+            {{ file.name }}
+            <span class="close-tab-btn" @click.stop="deleteFile(file.id)">×</span>
+          </div>
+        </div>
+        <div class="editor-actions">
+          <button @click="runCode" class="action-btn">Run Code</button>
+          <button @click="downloadCode" class="action-btn">Download Code</button>
+        </div>
+      </div>
+      <div class="editor-content-wrapper">
+        <div id="editor-container"></div>
+        <div class="terminal-area">
+          <div class="terminal-header">
+            <span class="terminal-title">TERMINAL</span>
+          </div>
+          <div class="output-container" ref="terminalContainer">
+            <pre v-for="(line, index) in terminalOutput" :key="index" :class="line.type">
+              {{ line.text }}
+            </pre>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -76,7 +122,7 @@ const files = ref([
 ]);
 const activeFileId = ref(files.value[0].id);
 const code = ref(files.value[0].content);
-const terminalOutput = ref<{ text: string; type: string }[]>([]); // 出力を配列で管理
+const terminalOutput = ref<{ text: string; type: string }[]>([]);
 const editingFileId = ref<string | null>(null);
 let monacoEditor: monaco.editor.IStandaloneCodeEditor;
 
@@ -84,6 +130,28 @@ const showConfirmPopup = ref(false);
 const popupMessage = ref('');
 let popupResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null;
 const terminalContainer = ref<HTMLElement | null>(null);
+
+// サイドバーの状態を管理するオブジェクト
+const sidebarState = ref({
+  explorer: true,
+  search: false,
+  runcode: false,
+  git: false,
+});
+
+// サイドバーを切り替える関数
+const switchSidebar = (view: 'explorer' | 'search' | 'runcode' | 'git') => {
+  // すべてのビューを非アクティブにする
+  sidebarState.value.explorer = false;
+  sidebarState.value.search = false;
+  sidebarState.value.runcode = false;
+  sidebarState.value.git = false;
+
+  // 選択されたビューをアクティブにする
+  if (sidebarState.value[view] === false) {
+    sidebarState.value[view] = true;
+  }
+};
 
 watch(activeFileId, (newFileId, oldFileId) => {
   if (monacoEditor && oldFileId) {
@@ -115,7 +183,6 @@ onMounted(() => {
   });
 });
 
-// terminalOutputが変更されたときに自動スクロール
 watch(terminalOutput, () => {
   nextTick(() => {
     if (terminalContainer.value) {
@@ -227,216 +294,392 @@ const vRenameFocus = {
 </script>
 
 <style scoped>
-/* 既存のCSSは省略 */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  color: #333;
+  display: grid;
+  grid-template-columns: 50px 250px 1fr;
+  grid-template-rows: 1fr;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #c5c5c5;
+  background-color: #1e1e1e;
+  overflow: hidden;
 }
-h1 {
-  text-align: center;
-  color: #2c3e50;
-}
-.actions {
+
+.activity-bar {
+  grid-column: 1;
+  background-color: #333333;
+  padding-top: 10px;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
-.main-content {
+.activity-icon-group {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
-.file-explorer {
-  width: 250px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
+.activity-icon-item {
+  width: 50px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #858585;
+  position: relative;
+  background: none;
+  border: none;
+}
+.activity-icon-item:hover, .activity-icon-item.active {
+  color: #ffffff;
+}
+.activity-icon-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #ffffff;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.side-bar {
+  grid-column: 2;
+  background-color: #252526;
   padding: 10px;
-  border: 1px solid #ccc;
+  border-right: 1px solid #000000;
+  overflow-y: auto;
 }
-.file-header {
+.sidebar-content {
+  padding: 10px 0;
+}
+.sidebar-content h3 {
+  color: #c5c5c5;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.search-box input {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #3e3e40;
+  border: 1px solid #333333;
+  color: #cccccc;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.file-explorer h3 {
+  color: #c5c5c5;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.file-explorer .file-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid transparent;
 }
-.file-explorer h3 {
+.add-file-btn {
+  background: transparent;
+  border: none;
+  color: #c5c5c5;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0 5px;
+}
+.add-file-btn:hover {
+  color: #ffffff;
+}
+
+.files-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+.files-title p {
+  font-size: 11px;
+  color: #888888;
+  text-transform: uppercase;
+  font-weight: normal;
   margin: 0;
+  letter-spacing: 0.5px;
 }
-.file-explorer ul {
-  list-style-type: none;
+.file-explorer ul.file-list {
+  list-style: none;
   padding: 0;
   margin: 0;
 }
-.file-explorer li {
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-bottom: 4px;
-  transition: background-color 0.2s;
+.file-explorer ul.file-list li {
   display: flex;
   align-items: center;
+  padding: 2px 10px;
+  cursor: pointer;
+  color: #c5c5c5;
+  font-size: 13px;
+  transition: background-color 0.1s;
+  position: relative;
 }
-.file-explorer li:hover {
-  background-color: #e0e0e0;
+.file-explorer ul.file-list li:hover {
+  background-color: #2a2d2e;
 }
-.file-explorer li.active {
-  background-color: #ddd;
-  font-weight: bold;
+.file-explorer ul.file-list li.active {
+  background-color: #006090;
+  color: #ffffff;
 }
-.file-explorer li span {
+.file-explorer ul.file-list li span {
   flex-grow: 1;
+  user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.file-explorer li input {
+.file-explorer ul.file-list li input {
   flex-grow: 1;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #3e3e40;
+  color: white;
+  border: 1px solid #007acc;
   padding: 2px 4px;
-  background-color: white;
-  color: blue;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 13px;
 }
 .delete-btn {
-  background-color: transparent;
-  color: #c62828;
+  background: transparent;
   border: none;
-  padding: 4px;
-  margin-left: 8px;
+  color: #c5c5c5;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  padding: 0;
   line-height: 1;
-  transition: color 0.2s;
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.file-explorer ul.file-list li:hover .delete-btn {
+  opacity: 1;
+}
+.file-explorer ul.file-list li.active .delete-btn {
+  opacity: 1;
+  color: #ffffff;
 }
 .delete-btn:hover {
-  color: #ff5252;
+  color: #e44f50;
 }
-.code-editor {
-  flex-grow: 1;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+
+.main-editor-area {
+  grid-column: 3;
+  background-color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
-#editor-container {
-  width: 100%;
-  height: 400px;
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #000000;
+  min-height: 35px;
+  padding-right: 10px;
 }
-button {
-  padding: 10px 15px;
-  background-color: #f7df1e;
+.tab-container {
+  display: flex;
+  overflow-x: auto;
+  flex-grow: 1;
+  white-space: nowrap;
+}
+.editor-tab {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-right: 1px solid #000000;
+  color: #888;
+  background-color: #2d2d2d;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.editor-tab:hover {
+  background-color: #333333;
+  color: #ffffff;
+}
+.editor-tab.active {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 6px;
+}
+.close-tab-btn {
+  margin-left: 10px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1;
+  color: #888;
+  opacity: 0.7;
+  transition: opacity 0.2s, color 0.2s;
+}
+.close-tab-btn:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.editor-tab.active .close-tab-btn {
+  color: #ffffff;
+}
+.editor-actions {
+  display: flex;
+  gap: 8px;
+}
+.action-btn {
+  background-color: #007acc;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 3px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 13px;
+  transition: background-color 0.2s;
+  white-space: nowrap;
 }
-button:hover {
-  background-color: #f7df1e;
+.action-btn:hover {
+  background-color: #0066a3;
 }
 
-/* --- ターミナル表示エリア --- */
+.editor-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+#editor-container {
+  height: 65%;
+  flex-shrink: 0;
+}
 .terminal-area {
-  margin-top: 20px;
+  height: 35%;
   background-color: #1e1e1e;
   color: white;
-  padding: 15px;
-  border-radius: 8px;
-  min-height: 150px;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #000000;
 }
-
-.terminal-area h3 {
-  margin-top: 0;
-  color: #f0f0f0;
+.terminal-header {
+  background-color: #2d2d2d;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  min-height: 28px;
 }
-
+.terminal-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #c5c5c5;
+  user-select: none;
+}
 .output-container {
-  max-height: 300px;
+  padding: 10px;
   overflow-y: auto;
+  flex-grow: 1;
+  font-size: 13px;
 }
-
 .terminal-area pre {
   margin: 0;
   font-family: 'Courier New', Courier, monospace;
   white-space: pre-wrap;
   word-wrap: break-word;
-}
-
-.terminal-area pre.log {
+  line-height: 1.4;
   color: white;
 }
-
+.terminal-area pre.log {
+  color: #cccccc;
+}
 .terminal-area pre.error {
-  color: #ff5555;
+  color: #e44f50;
 }
-
 .terminal-area pre.info {
-  color: #888;
+  color: #888888;
 }
 
-/* カスタム確認ポップアップのスタイル */
 .confirm-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
-
 .confirm-popup {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #252526;
+  color: #c5c5c5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   text-align: center;
   max-width: 400px;
   width: 90%;
+  border: 1px solid #000000;
 }
-
 .confirm-popup p {
   margin-bottom: 20px;
-  font-size: 1.1em;
-  color: #333;
+  font-size: 14px;
+  color: #c5c5c5;
 }
-
 .popup-actions {
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  justify-content: flex-end;
+  gap: 10px;
 }
-
 .confirm-ok-btn, .confirm-cancel-btn {
-  padding: 10px 20px;
+  padding: 6px 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.2s, color 0.2s;
+  font-size: 13px;
+  transition: background-color 0.2s;
 }
-
 .confirm-ok-btn {
-  background-color: #4CAF50;
+  background-color: #007acc;
   color: white;
 }
-
 .confirm-ok-btn:hover {
-  background-color: #45a049;
+  background-color: #0066a3;
 }
-
 .confirm-cancel-btn {
-  background-color: #f44336;
+  background-color: #3c3c3c;
   color: white;
 }
-
 .confirm-cancel-btn:hover {
-  background-color: #da190b;
+  background-color: #555555;
 }
 </style>
