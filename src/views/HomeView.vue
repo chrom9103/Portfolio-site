@@ -67,7 +67,8 @@
 
       <div v-else-if="sidebarState.runcode" class="sidebar-content">
         <h3>実行とデバッグ</h3>
-        <p>この機能は現在開発中です。</p>
+        <button @click="runCode" class="action-btn">Run Code</button>
+        <button @click="downloadCode" class="action-btn">Download Code</button>
       </div>
 
       <div v-else-if="sidebarState.git" class="sidebar-content">
@@ -85,8 +86,7 @@
           </div>
         </div>
         <div class="editor-actions">
-          <button @click="runCode" class="action-btn">Run Code</button>
-          <button @click="downloadCode" class="action-btn">Download Code</button>
+          <button @click="runCode" class="action-icon-btn">▷</button>
         </div>
       </div>
       <div class="editor-content-wrapper">
@@ -568,8 +568,10 @@ html, body {
   background-color: #007acc;
   color: white;
   border: none;
+  margin: 6px 0 6px 0;
   padding: 6px 10px;
   border-radius: 3px;
+  width: 100%;
   cursor: pointer;
   font-size: 13px;
   transition: background-color 0.2s;
@@ -577,6 +579,22 @@ html, body {
 }
 .action-btn:hover {
   background-color: #0066a3;
+}
+.action-icon-btn {
+  background-color: #2d2d2d;
+  color: white;
+  border: none;
+  margin: 6px 0 6px 0;
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s;
+  width: 32px;
+  height: 32px;
+}
+.action-icon-btn:hover {
+  background-color: #1d1d1d;
 }
 
 .editor-content-wrapper {
