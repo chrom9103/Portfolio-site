@@ -43,7 +43,11 @@
     
     <div class="terminal-area">
       <h3>Terminal:</h3>
-      <pre :class="{ error: error, success: !error }">{{ output || error }}</pre>
+      <div class="output-container" ref="terminalContainer">
+        <pre v-for="(line, index) in terminalOutput" :key="index" :class="line.type">
+          {{ line.text }}
+        </pre>
+      </div>
     </div>
 
     <div v-if="showConfirmPopup" class="confirm-overlay">
@@ -59,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import * as monaco from 'monaco-editor';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -72,14 +76,14 @@ const files = ref([
 ]);
 const activeFileId = ref(files.value[0].id);
 const code = ref(files.value[0].content);
-const output = ref('');
-const error = ref('');
+const terminalOutput = ref<{ text: string; type: string }[]>([]); // 出力を配列で管理
 const editingFileId = ref<string | null>(null);
 let monacoEditor: monaco.editor.IStandaloneCodeEditor;
 
 const showConfirmPopup = ref(false);
 const popupMessage = ref('');
 let popupResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null;
+const terminalContainer = ref<HTMLElement | null>(null);
 
 watch(activeFileId, (newFileId, oldFileId) => {
   if (monacoEditor && oldFileId) {
@@ -111,25 +115,32 @@ onMounted(() => {
   });
 });
 
-const runCode = () => {
-  output.value = '';
-  error.value = '';
+// terminalOutputが変更されたときに自動スクロール
+watch(terminalOutput, () => {
+  nextTick(() => {
+    if (terminalContainer.value) {
+      terminalContainer.value.scrollTop = terminalContainer.value.scrollHeight;
+    }
+  });
+}, { deep: true });
 
+const runCode = () => {
   const originalLog = console.log;
-  let tempOutput = '';
+  
+  terminalOutput.value.push({ text: `> Running ${new Date().toLocaleTimeString()}`, type: 'info' });
 
   console.log = (...args) => {
-    tempOutput += args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ') + '\n';
+    const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
+    terminalOutput.value.push({ text: message, type: 'log' });
   };
 
   try {
     const result = eval(code.value);
     if (result !== undefined) {
-      tempOutput += `=> ${typeof result === 'object' ? JSON.stringify(result) : String(result)}`;
+      terminalOutput.value.push({ text: `=> ${typeof result === 'object' ? JSON.stringify(result) : String(result)}`, type: 'log' });
     }
-    output.value = tempOutput;
   } catch (e: any) {
-    error.value = e.toString();
+    terminalOutput.value.push({ text: `Error: ${e.toString()}`, type: 'error' });
   } finally {
     console.log = originalLog;
   }
@@ -151,7 +162,7 @@ const downloadCode = () => {
 const addNewFile = () => {
   const newFile = {
     id: uuidv4(),
-    name: `new-file.js`,
+    name: `new-file-${files.value.length + 1}.js`,
     content: `console.log('Hello world!');`,
   };
   files.value.push(newFile);
@@ -216,37 +227,7 @@ const vRenameFocus = {
 </script>
 
 <style scoped>
-/* --- ターミナル表示エリア --- */
-.terminal-area {
-  margin-top: 20px;
-  background-color: #1e1e1e;
-  color: white;
-  padding: 15px;
-  border-radius: 8px;
-  min-height: 150px;
-  box-sizing: border-box;
-}
-
-.terminal-area h3 {
-  margin-top: 0;
-  color: #f0f0f0;
-}
-
-.terminal-area pre {
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.terminal-area pre.success {
-  color: white;
-}
-
-.terminal-area pre.error {
-  color: #ff5555;
-}
-
+/* 既存のCSSは省略 */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -353,7 +334,47 @@ button {
   transition: background-color 0.3s;
 }
 button:hover {
-  background-color: #e7d01c;
+  background-color: #f7df1e;
+}
+
+/* --- ターミナル表示エリア --- */
+.terminal-area {
+  margin-top: 20px;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.terminal-area h3 {
+  margin-top: 0;
+  color: #f0f0f0;
+}
+
+.output-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.terminal-area pre {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.terminal-area pre.log {
+  color: white;
+}
+
+.terminal-area pre.error {
+  color: #ff5555;
+}
+
+.terminal-area pre.info {
+  color: #888;
 }
 
 /* カスタム確認ポップアップのスタイル */
