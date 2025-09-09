@@ -96,9 +96,9 @@
             <span class="terminal-title">TERMINAL</span>
           </div>
           <div class="output-container" ref="terminalContainer">
-            <pre v-for="(line, index) in terminalOutput" :key="index" :class="line.type">
+            <p v-for="(line, index) in terminalOutput" :key="index" :class="line.type">
               {{ line.text }}
-            </pre>
+            </p>
           </div>
         </div>
       </div>
@@ -635,7 +635,7 @@ html, body {
   flex-grow: 1;
   font-size: 13px;
 }
-.terminal-area pre {
+.terminal-area p {
   margin: 0;
   font-family: 'Courier New', Courier, monospace;
   white-space: pre-wrap;
@@ -643,13 +643,13 @@ html, body {
   line-height: 1.4;
   color: white;
 }
-.terminal-area pre.log {
+.terminal-area p.log {
   color: #cccccc;
 }
-.terminal-area pre.error {
+.terminal-area p.error {
   color: #e44f50;
 }
-.terminal-area pre.info {
+.terminal-area p.info {
   color: #888888;
 }
 
