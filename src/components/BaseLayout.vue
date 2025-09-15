@@ -64,7 +64,6 @@ const props = withDefaults(defineProps<Props>(), {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -126,7 +125,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 .main-content {
   padding: 2rem;
-  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -146,7 +144,6 @@ const props = withDefaults(defineProps<Props>(), {
   text-align: center;
   color: var(--color-text-mute);
   padding: 1rem 2rem;
-  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
