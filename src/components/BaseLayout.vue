@@ -1,29 +1,31 @@
 <template>
-  <header class="header">
-    <div class="header-content">
-      <div class="logo-group">
-        <RouterLink to="/" class="logo-link">
+  <div class="app-container">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-group">
+          <RouterLink to="/" class="logo-link">
             <img src="../assets/IMG_0051.jpg" alt="chrom logo" class="logo" />
             <h1 class="site-title">{{ props.title }}</h1>
-        </RouterLink>
+          </RouterLink>
+        </div>
+
+        <nav v-if="props.showNavigation" class="navigation">
+          <RouterLink to="/about" class="nav-link">About</RouterLink>
+          <RouterLink to="/works" class="nav-link">Works</RouterLink>
+        </nav>
       </div>
+    </header>
 
-      <nav v-if="props.showNavigation" class="navigation">
-        <RouterLink to="/about" class="nav-link">About</RouterLink>
-        <RouterLink to="/works" class="nav-link">Works</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <main class="main-content">
+    <main class="main-content">
       <slot />
-  </main>
+    </main>
 
-  <footer class="footer">
+    <footer class="footer">
       <div class="footer-content">
         <p>© chrom All rights reserved.</p>
       </div>
     </footer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,6 +43,13 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* ヘッダーコンテナのスタイル */
 .header {
   background-color: var(--color-background-soft, #fff);
@@ -48,6 +57,7 @@ const props = withDefaults(defineProps<Props>(), {
   width: 100%;
   box-sizing: border-box;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .header-content {
@@ -119,6 +129,7 @@ const props = withDefaults(defineProps<Props>(), {
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
+  flex-grow: 1;
 }
 
 .footer {
@@ -127,6 +138,7 @@ const props = withDefaults(defineProps<Props>(), {
   width: 100%;
   box-sizing: border-box;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .footer-content {
