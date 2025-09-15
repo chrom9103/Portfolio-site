@@ -10,7 +10,6 @@
         </div>
 
         <nav v-if="props.showNavigation" class="navigation">
-          <RouterLink to="/about" class="nav-link">About</RouterLink>
           <RouterLink to="/works" class="nav-link">Works</RouterLink>
         </nav>
       </div>
@@ -90,6 +89,8 @@ const props = withDefaults(defineProps<Props>(), {
 .logo {
   width: 30px;
   height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
