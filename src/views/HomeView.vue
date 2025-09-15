@@ -6,4 +6,8 @@
 
 <script setup lang="ts">
 import BaseLayout from '../components/BaseLayout.vue'
+import PageLayout from '../components/Page.vue'
 </script>
+
+<style scoped> 
+</style>
