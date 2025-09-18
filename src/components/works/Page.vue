@@ -27,6 +27,17 @@ const works = [
     '/works/スクリーンショット 2025-09-15 180030.png',
     '/works/playground',
     'https://github.com/chrom9103/JS_online-editer'
+  ),
+  new Work(
+    2,
+    'PiedPiper-bot',
+    'Discord Bot (utility)',
+    'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
+    ['python(discord.py)', 'microk8s', 'PVC, PV'],
+    ['リアルタイムコード実行', '直感的なUI'],
+    null,
+    null,
+    'https://github.com/chrom9103/PiedPiper_bot'
   )
 ]
 </script>
