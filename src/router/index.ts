@@ -19,11 +19,6 @@ const router = createRouter({
       name: 'works',
       component: () => import('../views/works/WorksView.vue'),
     },
-    {
-      path: '/works/playground',
-      name: 'playground',
-      component: () => import('../views/works/PlayGround/MainView.vue'),
-    },
   ],
 })
 
