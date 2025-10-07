@@ -301,7 +301,7 @@ section {
 
   .hero-section {
     padding: 2.5rem 0;
-    gap: 1.5rem;
+    gap: 4.5rem;
   }
 
   .hero-title {
@@ -340,8 +340,8 @@ section {
   }
 
   .profile-image {
-    width: 250px;
-    height: 250px;
+    width: 128px;
+    height: 128px;
   }
 }
 
