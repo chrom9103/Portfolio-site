@@ -293,6 +293,58 @@ section {
   margin-bottom: 2rem;
 }
 
+/* Responsive fixes for small screens */
+@media (max-width: 767px) {
+  .page-container {
+    padding: 0 1rem;
+  }
+
+  .hero-section {
+    padding: 2.5rem 0;
+    gap: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  .cta-button {
+    padding: 0.8rem 2rem; /* avoid extremely wide buttons on small screens */
+    font-size: 0.95rem;
+    white-space: normal;
+  }
+
+  .profile-image {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Slightly larger buttons and images on tablet and up */
+@media (min-width: 768px) {
+  .cta-button {
+    padding: 0.8rem 4rem;
+  }
+
+  .profile-image {
+    width: 128px;
+    height: 128px;
+  }
+}
+
+/* Restore large paddings on wide desktop if desired */
+@media (min-width: 512px) {
+  .cta-button {
+    padding: 0.8rem 8rem;
+  }
+
+  .profile-image {
+    width: 250px;
+    height: 250px;
+  }
+}
+
 /* Animations */
 @keyframes slide-in-top {
   from {
