@@ -322,7 +322,7 @@ section {
 }
 
 /* Slightly larger buttons and images on tablet and up */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .cta-button {
     padding: 0.8rem 4rem;
   }
@@ -334,7 +334,7 @@ section {
 }
 
 /* Restore large paddings on wide desktop if desired */
-@media (min-width: 512px) {
+@media (max-width: 512px) {
   .cta-button {
     padding: 0.8rem 8rem;
   }
