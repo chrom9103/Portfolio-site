@@ -25,7 +25,7 @@ const works = [
     ['Vue.js', 'microk8s', 'Monaco Editor'],
     ['リアルタイムコード実行', '直感的なUI', 'ソース管理(開発中)'],
     '/works/スクリーンショット 2025-09-15 180030.png',
-    '/works/playground',
+    '/https://www.chrom.jp/works/playground/',
     'https://github.com/chrom9103/JS_online-editer'
   ),
   new Work(
