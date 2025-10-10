@@ -34,7 +34,7 @@ const works = [
     'Discord Bot (utility)',
     'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
     ['python(discord.py)', 'microk8s', 'PVC, PV'],
-    ['ログ収集・分析', 'DIscord権限付与(sudo権限)', '乱数生成 他utils'],
+    ['ログ収集・分析', 'Discord権限付与(sudo権限)', '乱数生成 他utils'],
     null,
     null,
     'https://github.com/chrom9103/PiedPiper_bot'
