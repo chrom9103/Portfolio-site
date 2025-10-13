@@ -24,7 +24,7 @@ const works = [
     'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
     ['Vue.js', 'microk8s', 'Monaco Editor'],
     ['リアルタイムコード実行', '直感的なUI', 'ソース管理(開発中)'],
-    '/works/スクリーンショット 2025-09-15 180030.png',
+    '/jsPlayground_img.png',
     'https://www.chrom.jp/works/playground/',
     'https://github.com/chrom9103/JS_online-editer'
   ),
