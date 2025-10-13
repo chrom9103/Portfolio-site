@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import BaseLayout from '../../components/BaseLayout.vue'
-import PageLayout from '../../components/works/Page.vue'
+import BaseLayout from '../components/BaseLayout.vue'
+import PageLayout from '../components/WorksPage.vue'
 </script>
