@@ -1,5 +1,5 @@
 <template>
-  <BaseLayout title="404 Not Found">
+  <BaseLayout title="chrom Portfolio">
     <div class="not-found">
       <h1>404</h1>
       <p>ページが見つかりません</p>
