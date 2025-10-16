@@ -60,7 +60,7 @@
         <p class="contact-text">
           下記のメールアドレスにお気軽にご連絡ください
         </p>
-        <a href="mailto:your.email@example.com" class="cta-button primary">chrom@chrom.jp</a>
+        <a href="mailto:chrom@chrom.jp" class="cta-button primary">chrom@chrom.jp</a>
       </div>
     </section>
   </div>
