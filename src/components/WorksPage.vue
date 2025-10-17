@@ -17,7 +17,18 @@ class Work {
 }
 
 const works = [
-   new Work(
+  new Work(
+    0,
+    'Portfolio Website',
+    'Webアプリケーション',
+    'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
+    ['Vue.js', 'microk8s', 'vite.js'],
+    [],
+    null,
+    'https://www.chrom.jp/',
+    'https://github.com/chrom9103/portfolio-site'
+  ),
+  new Work(
     1,
     'JavaScript Playground',
     'Webアプリケーション',
