@@ -58,7 +58,7 @@ const works = [
     ['Vue.js', 'npm-qrcode', 'jsQR'],
     ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
     null,
-    'https://www.chrom.jp/works/playground/',
+    'https://www.chrom.jp/works/qrcode-destroyer/',
     'https://github.com/chrom9103/QRcode-destroyer'
   )
 ]
