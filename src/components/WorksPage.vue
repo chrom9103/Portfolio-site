@@ -49,6 +49,17 @@ const works = [
     null,
     null,
     'https://github.com/chrom9103/PiedPiper_bot'
+  ),
+  new Work(
+    3,
+    'QRcode-destroyer',
+    'webアプリケーション',
+    'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
+    ['Vue.js', 'npm-qrcode', 'jsQR'],
+    ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
+    null,
+    'https://www.chrom.jp/works/playground/',
+    'https://github.com/chrom9103/QRcode-destroyer'
   )
 ]
 </script>
