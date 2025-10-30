@@ -41,17 +41,6 @@ const works = [
   ),
   new Work(
     2,
-    'PiedPiper-bot',
-    'Discord Bot (utility)',
-    'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
-    ['python(discord.py)', 'microk8s', 'PVC, PV'],
-    ['ログ収集・分析', 'Discord権限付与(sudo権限)', '乱数生成 他utils'],
-    null,
-    null,
-    'https://github.com/chrom9103/PiedPiper_bot'
-  ),
-  new Work(
-    3,
     'QRcode-destroyer',
     'webアプリケーション',
     'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
@@ -60,6 +49,17 @@ const works = [
     '/QRcodeDestroyer_img.png',
     'https://www.chrom.jp/works/qrcode-destroyer/',
     'https://github.com/chrom9103/QRcode-destroyer'
+  ),
+  new Work(
+    3,
+    'PiedPiper-bot',
+    'Discord Bot (utility)',
+    'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
+    ['python(discord.py)', 'microk8s', 'PVC, PV'],
+    ['ログ収集・分析', 'Discord権限付与(sudo権限)', '乱数生成 他utils'],
+    null,
+    null,
+    'https://github.com/chrom9103/PiedPiper_bot'
   )
 ]
 </script>
