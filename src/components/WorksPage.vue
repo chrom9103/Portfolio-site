@@ -57,7 +57,7 @@ const works = [
     'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
     ['Vue.js', 'npm-qrcode', 'jsQR'],
     ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
-    null,
+    '/QRcodeDestroyer_img.png',
     'https://www.chrom.jp/works/qrcode-destroyer/',
     'https://github.com/chrom9103/QRcode-destroyer'
   )
