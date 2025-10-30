@@ -24,7 +24,7 @@ const works = [
     'A personal portfolio website to introduce my profile and showcase my projects. It features a clean, modern, and responsive design, built with Vue.js.',
     ['Vue.js', 'microk8s', 'Vite'],
     ['レスポンシブデザイン', 'プロジェクト紹介', 'スキル・プロフィール表示'],
-    null,
+    '/portfolioSite_img.png',
     'https://www.chrom.jp/',
     'https://github.com/chrom9103/portfolio-site'
   ),
