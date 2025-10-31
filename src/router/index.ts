@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import WorksView from '../views/WorksView.vue'
 import NotFound from '../views/NotFound.vue'
+import AoyamafesLink from '../views/AoyamafesLinkView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +26,12 @@ const router = createRouter({
     {
       path: '/:path(.*)*',
       component: NotFound
-    }
+    },
+    {
+      path: '/a',
+      name: 'aoyamafes-link',
+      component: AoyamafesLink,
+    },
   ],
 })
 
