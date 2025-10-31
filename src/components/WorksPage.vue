@@ -17,7 +17,18 @@ class Work {
 }
 
 const works = [
-   new Work(
+  new Work(
+    0,
+    'Portfolio Website',
+    'Webアプリケーション',
+    'A personal portfolio website to introduce my profile and showcase my projects. It features a clean, modern, and responsive design, built with Vue.js.',
+    ['Vue.js', 'microk8s', 'Vite'],
+    ['レスポンシブデザイン', 'プロジェクト紹介', 'スキル・プロフィール表示'],
+    '/portfolioSite_img.png',
+    'https://www.chrom.jp/',
+    'https://github.com/chrom9103/portfolio-site'
+  ),
+  new Work(
     1,
     'JavaScript Playground',
     'Webアプリケーション',
@@ -30,6 +41,17 @@ const works = [
   ),
   new Work(
     2,
+    'QRcode-destroyer',
+    'webアプリケーション',
+    'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
+    ['Vue.js', 'npm-qrcode', 'jsQR'],
+    ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
+    '/QRcodeDestroyer_img.png',
+    'https://www.chrom.jp/works/qrcode-destroyer/',
+    'https://github.com/chrom9103/QRcode-destroyer'
+  ),
+  new Work(
+    3,
     'PiedPiper-bot',
     'Discord Bot (utility)',
     'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
