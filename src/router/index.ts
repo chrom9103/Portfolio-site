@@ -24,13 +24,13 @@ const router = createRouter({
       component: WorksView,
     },
     {
-      path: '/:path(.*)*',
-      component: NotFound
-    },
-    {
       path: '/a',
       name: 'aoyamafes-link',
       component: AoyamafesLink,
+    },
+    {
+      path: '/:path(.*)*',
+      component: NotFound
     },
   ],
 })
