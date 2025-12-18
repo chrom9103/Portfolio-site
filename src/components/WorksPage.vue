@@ -22,10 +22,10 @@ const works = [
     'Portfolio Website',
     'Webアプリケーション',
     'A personal portfolio website to introduce my profile and showcase my projects. It features a clean, modern, and responsive design, built with Vue.js.',
-    ['Vue.js', 'microk8s', 'Vite'],
+    ['Vue.js', 'Vite', 'Cloudflare Pages'],
     ['レスポンシブデザイン', 'プロジェクト紹介', 'スキル・プロフィール表示'],
     '/portfolioSite_img.png',
-    'https://www.chrom.jp/',
+    'https://info.chrom.jp/',
     'https://github.com/chrom9103/portfolio-site'
   ),
   new Work(
