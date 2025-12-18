@@ -68,7 +68,7 @@ const works = [
     '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
     ['Vue.js', 'FastAPI', 'supabase'],
     ['ログ収集・分析', 'Discord権限付与(sudo権限)', '乱数生成 他utils'],
-    null,
+    '/CIRCLE_img.png',
     'https://www.chrom.jp/CIRCLE/',
     'https://github.com/chrom9103/CIRCLE'
   )
