@@ -60,6 +60,17 @@ const works = [
     null,
     null,
     'https://github.com/chrom9103/PiedPiper_bot'
+  ),
+  new Work(
+    4,
+    'CIRCLE',
+    'Webアプリケーション',
+    '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
+    ['Vue.js', 'FastAPI', 'supabase'],
+    ['ログ収集・分析', 'Discord権限付与(sudo権限)', '乱数生成 他utils'],
+    null,
+    'https://www.chrom.jp/CIRCLE/',
+    'https://github.com/chrom9103/CIRCLE'
   )
 ]
 </script>
