@@ -30,6 +30,17 @@ const works = [
   ),
   new Work(
     1,
+    'CIRCLE',
+    'Webアプリケーション',
+    '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
+    ['Vue.js', 'FastAPI', 'supabase'],
+    ['会計記録登録', '記録管理', 'Discord認証機能'],
+    '/CIRCLE_img.png',
+    'https://www.chrom.jp/CIRCLE/',
+    'https://github.com/chrom9103/CIRCLE'
+  ),
+  new Work(
+    2,
     'JavaScript Playground',
     'Webアプリケーション',
     'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
@@ -38,17 +49,6 @@ const works = [
     '/jsPlayground_img.png',
     'https://www.chrom.jp/works/playground/',
     'https://github.com/chrom9103/JS_online-editer'
-  ),
-  new Work(
-    2,
-    'QRcode-destroyer',
-    'webアプリケーション',
-    'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
-    ['Vue.js', 'npm-qrcode', 'jsQR'],
-    ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
-    '/QRcodeDestroyer_img.png',
-    'https://www.chrom.jp/works/qrcode-destroyer/',
-    'https://github.com/chrom9103/QRcode-destroyer'
   ),
   new Work(
     3,
@@ -63,14 +63,14 @@ const works = [
   ),
   new Work(
     4,
-    'CIRCLE',
-    'Webアプリケーション',
-    '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
-    ['Vue.js', 'FastAPI', 'supabase'],
-    ['会計記録登録', '記録管理', 'Discord認証機能'],
-    '/CIRCLE_img.png',
-    'https://www.chrom.jp/CIRCLE/',
-    'https://github.com/chrom9103/CIRCLE'
+    'QRcode-destroyer',
+    'webアプリケーション',
+    'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
+    ['Vue.js', 'npm-qrcode', 'jsQR'],
+    ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
+    '/QRcodeDestroyer_img.png',
+    'https://www.chrom.jp/works/qrcode-destroyer/',
+    'https://github.com/chrom9103/QRcode-destroyer'
   )
 ]
 </script>
