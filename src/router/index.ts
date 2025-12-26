@@ -23,6 +23,16 @@ const router = createRouter({
       component: WorksView,
     },
     {
+      path: '/articles',
+      name: 'articles',
+      component: () => import('../views/ArticlesView.vue'),
+    },
+    {
+      path: '/articles/:uid',
+      name: 'article-detail',
+      component: () => import('../views/ArticleDetailView.vue'),
+    },
+    {
       path: '/:path(.*)*',
       component: NotFound
     },
