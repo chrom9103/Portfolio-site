@@ -24,7 +24,7 @@ const works = [
     'A personal portfolio website to introduce my profile and showcase my projects. It features a clean, modern, and responsive design, built with Vue.js.',
     ['Vue.js', 'Vite', 'Cloudflare Pages'],
     ['レスポンシブデザイン', 'プロジェクト紹介', 'スキル・プロフィール表示'],
-    '/portfolioSite_img.png',
+    new URL('../assets/portfolioSite_img.png', import.meta.url).href,
     'https://info.chrom.jp/',
     'https://github.com/chrom9103/portfolio-site'
   ),
@@ -35,7 +35,7 @@ const works = [
     '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
     ['Vue.js', 'FastAPI', 'supabase'],
     ['会計記録登録', '記録管理', 'Discord認証機能'],
-    '/CIRCLE_img.png',
+    new URL('../assets/CIRCLE_img.png', import.meta.url).href,
     'https://www.chrom.jp/CIRCLE/',
     'https://github.com/chrom9103/CIRCLE'
   ),
@@ -46,7 +46,7 @@ const works = [
     'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
     ['Vue.js', 'microk8s', 'Monaco Editor'],
     ['リアルタイムコード実行', '直感的なUI', 'ソース管理(開発中)'],
-    '/jsPlayground_img.png',
+    new URL('../assets/jsPlayground_img.png', import.meta.url).href,
     'https://www.chrom.jp/works/playground/',
     'https://github.com/chrom9103/JS_online-editer'
   ),
@@ -68,7 +68,7 @@ const works = [
     'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
     ['Vue.js', 'npm-qrcode', 'jsQR'],
     ['QRコードの生成', 'QRコードの読み取り', 'QRコードの規格説明'],
-    '/QRcodeDestroyer_img.png',
+    new URL('../assets/QRcodeDestroyer_img.png', import.meta.url).href,
     'https://www.chrom.jp/works/qrcode-destroyer/',
     'https://github.com/chrom9103/QRcode-destroyer'
   )
