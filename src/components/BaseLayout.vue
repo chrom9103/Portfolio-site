@@ -94,7 +94,7 @@ onUnmounted(() => {
 .right { display:flex; align-items:center; gap:0.75rem; position:relative }
 
 .burger {
-  display: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -136,9 +136,4 @@ onUnmounted(() => {
 .main-content { padding: 2rem; margin: 0 auto; width: 100%; box-sizing: border-box; flex-grow: 1 }
 .footer { background-color: var(--color-background-soft); border-top: 1px solid var(--color-border); width:100%; box-sizing:border-box; padding:0; }
 .footer-content { text-align:center; color: var(--color-text-mute); padding:1rem 2rem }
-
-@media (max-width: 768px) {
-  .burger { display: inline-flex }
-}
-
 </style>
