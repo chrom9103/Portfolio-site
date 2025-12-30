@@ -2,7 +2,7 @@
 uid: 1c395a
 title: Windowsを抜いた話
 date: 2025-12-28
-updated: 2025-12-28
+updated: 2025-12-30
 summary: サブPCのOSをLinux(ubuntu)に変更した際の体験談です。
 tags:
   - Linux(ubuntu)
