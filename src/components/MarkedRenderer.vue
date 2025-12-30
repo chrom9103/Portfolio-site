@@ -12,6 +12,7 @@ const container = ref<HTMLElement | null>(null)
 
 function renderMarkdown(md: string) {
   // Convert markdown to HTML
+  marked.use({ gfm: true, breaks: true })
   const raw = marked.parse(md ?? '')
   // Sanitize
   const clean = DOMPurify.sanitize(raw)
@@ -105,6 +106,9 @@ watch(
 
 .marked-content :deep(strong),
 .marked-content :deep(b) {
-  font-weight: 700;
+  font-weight: 700 !important;
+}
+.marked-content :deep(strong) {
+  font-weight: 700 !important;
 }
 </style>

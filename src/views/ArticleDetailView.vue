@@ -165,7 +165,10 @@ function formatDate(dateString: string): string {
 
 .article-content :deep(strong),
 .article-content :deep(b) {
-  font-weight: 700;
+  font-weight: 700 !important;
+}
+.article-content :deep(strong) {
+  font-weight: 700 !important;
 }
 
 .article-content :deep(blockquote) {
