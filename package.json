@@ -16,6 +16,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "dompurify": "^3.3.1",
     "marked": "^17.0.1",
     "monaco-editor": "^0.52.2",
     "prismjs": "^1.30.0",
