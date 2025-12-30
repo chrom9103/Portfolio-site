@@ -18,7 +18,9 @@
         </div>
       </header>
 
-      <div class="article-content" v-html="renderedContent"></div>
+      <div class="article-content">
+        <MarkedRenderer :markdown="article.content" />
+      </div>
     </div>
 
     <div v-else class="not-found">
@@ -31,7 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'
+import MarkedRenderer from '../components/MarkedRenderer.vue'
 import BaseLayout from '../components/BaseLayout.vue'
 import { getArticleByUid } from '../components/articles/articleLoader'
 
@@ -40,10 +42,6 @@ const uid = computed(() => route.params.uid as string)
 
 const article = computed(() => getArticleByUid(uid.value))
 
-const renderedContent = computed(() => {
-  if (!article.value) return ''
-  return marked(article.value.content)
-})
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString)
@@ -163,6 +161,11 @@ function formatDate(dateString: string): string {
   background-color: transparent;
   padding: 0;
   color: inherit;
+}
+
+.article-content :deep(strong),
+.article-content :deep(b) {
+  font-weight: 700;
 }
 
 .article-content :deep(blockquote) {
