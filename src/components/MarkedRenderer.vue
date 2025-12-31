@@ -13,7 +13,7 @@ const container = ref<HTMLElement | null>(null)
 function renderMarkdown(md: string) {
   // Convert markdown to HTML
   marked.use({ gfm: true, breaks: true })
-  const raw = marked.parse(md ?? '')
+  const raw = marked.parse(md ?? '') as string
   // Sanitize
   const clean = DOMPurify.sanitize(raw)
   if (container.value) {
