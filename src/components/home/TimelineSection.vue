@@ -2,38 +2,55 @@
   <section class="timeline-section">
     <h2 class="section-heading">Experience</h2>
     <div class="timeline-container">
-      <div class="timeline-line"></div>
-      <div class="timeline-content">
-        <div
-          v-for="(item, index) in timelineItems"
-          :key="index"
-          class="timeline-item"
-          :class="{ 'multi-year': item.end !== undefined }"
-        >
-          <div class="timeline-marker">
-            <div class="marker-dot"></div>
-            <div v-if="item.end" class="marker-line"></div>
-          </div>
-          <div class="timeline-card">
-            <div class="timeline-year">
-              <span class="year-badge">
-                {{ item.start }}
-                <template v-if="item.end">
-                  <span class="year-separator">―</span>
-                  {{ formatDate(item.end) }}
-                </template>
-              </span>
+      <!-- タイムライン行 -->
+      <div
+        v-for="row in timelineRows"
+        :key="row.date"
+        class="timeline-row"
+      >
+        <!-- 左側：備考欄（Milestones） -->
+        <div class="timeline-left">
+          <div class="note-items">
+            <div
+              v-for="(note, idx) in row.notes"
+              :key="idx"
+              class="note-chip"
+            >
+              <span class="note-text">{{ note.text }}</span>
             </div>
-            <h3 class="timeline-title">{{ item.title }}</h3>
-            <p class="timeline-description">{{ item.description }}</p>
-            <div class="timeline-tags">
-              <span
-                v-for="tag in item.tags"
-                :key="tag"
-                class="tag"
-              >
-                {{ tag }}
-              </span>
+          </div>
+        </div>
+        <!-- 中央線と日付 -->
+        <div class="timeline-center">
+          <div class="center-line"></div>
+          <div class="center-date">
+            <span class="date-label">{{ row.date }}</span>
+          </div>
+          <div class="center-line"></div>
+        </div>
+        <!-- 右側：メインアイテム（Projects） -->
+        <div class="timeline-right">
+          <div class="main-items">
+            <div
+              v-for="(item, idx) in row.mainItems"
+              :key="idx"
+              class="timeline-card"
+              :class="{ 'multi-year': item.end !== undefined }"
+            >
+              <div class="card-period">
+                <span class="period-badge">
+                  {{ item.start }}
+                  <template v-if="item.end">
+                    <span class="period-sep">―</span>
+                    {{ formatDate(item.end) }}
+                  </template>
+                </span>
+              </div>
+              <h3 class="card-title">{{ item.title }}</h3>
+              <p class="card-description">{{ item.description }}</p>
+              <div class="card-tags">
+                <span v-for="tag in item.tags" :key="tag" class="tag">{{ tag }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -43,6 +60,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 interface TimelineItem {
   start: string
   end?: string | 'present'
@@ -51,10 +70,34 @@ interface TimelineItem {
   tags: string[]
 }
 
+interface TimelineNote {
+  date: string
+  text: string
+}
+
+interface TimelineRow {
+  date: string
+  mainItems: TimelineItem[]
+  notes: TimelineNote[]
+}
+
 const formatDate = (date: string | 'present'): string => {
   if (date === 'present') return '現在'
   return date
 }
+
+const dateToSortKey = (dateStr: string): number => {
+  if (dateStr === 'present') return 999999
+  const parts = dateStr.split('/')
+  const year = parseInt(parts[0]) || 0
+  const month = parseInt(parts[1]) || 1
+  return year * 100 + month
+}
+
+const timelineNotes: TimelineNote[] = [
+  { date: '2024/04', text: '大学入学' },
+  { date: '2024/04', text: 'PiedPiper 青山テック愛好会 入会' },
+]
 
 const timelineItems: TimelineItem[] = [
   {
@@ -68,7 +111,7 @@ const timelineItems: TimelineItem[] = [
     end: 'present',
     title: 'Discord Bot開発',
     description: 'Pythonを用いたDiscord Botの開発を開始。ボットの機能拡張や運用に取り組みました。',
-    tags: ['Python', 'discord.py', '']
+    tags: ['Python', 'discord.py']
   },
   {
     start: '2024/11',
@@ -106,6 +149,22 @@ const timelineItems: TimelineItem[] = [
     tags: ['Vue 3', 'Supabase', 'FastAPI']
   }
 ]
+
+// 日付ごとにグループ化して行を生成
+const timelineRows = computed<TimelineRow[]>(() => {
+  const dateSet = new Set<string>()
+  
+  timelineItems.forEach(item => dateSet.add(item.start))
+  timelineNotes.forEach(note => dateSet.add(note.date))
+  
+  const sortedDates = Array.from(dateSet).sort((a, b) => dateToSortKey(a) - dateToSortKey(b))
+  
+  return sortedDates.map(date => ({
+    date,
+    mainItems: timelineItems.filter(item => item.start === date),
+    notes: timelineNotes.filter(note => note.date === date)
+  }))
+})
 </script>
 
 <style scoped>
@@ -119,258 +178,277 @@ const timelineItems: TimelineItem[] = [
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-heading);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .timeline-container {
-  position: relative;
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-.timeline-line {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--vt-c-indigo) 5%,
-    var(--vt-c-indigo) 95%,
-    transparent
-  );
-  border-radius: 2px;
+/* Timeline Row */
+.timeline-row {
+  display: grid;
+  grid-template-columns: calc(30% - 40px) 80px 1fr;
+  gap: 0;
+  min-height: 60px;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
 }
 
-@media (prefers-color-scheme: dark) {
-  .timeline-line {
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      #42b883 5%,
-      #42b883 95%,
-      transparent
-    );
-  }
+.timeline-row:nth-child(2) { animation-delay: 0.05s; }
+.timeline-row:nth-child(3) { animation-delay: 0.1s; }
+.timeline-row:nth-child(4) { animation-delay: 0.15s; }
+.timeline-row:nth-child(5) { animation-delay: 0.2s; }
+.timeline-row:nth-child(6) { animation-delay: 0.25s; }
+.timeline-row:nth-child(7) { animation-delay: 0.3s; }
+.timeline-row:nth-child(8) { animation-delay: 0.35s; }
+.timeline-row:nth-child(9) { animation-delay: 0.4s; }
+.timeline-row:nth-child(10) { animation-delay: 0.45s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.timeline-content {
+/* Left Side - Notes (Milestones) */
+.timeline-left {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.timeline-item {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-
-.timeline-item:nth-child(odd) {
-  flex-direction: row;
-  padding-right: calc(50% + 2rem);
-}
-
-.timeline-item:nth-child(even) {
-  flex-direction: row-reverse;
-  padding-left: calc(50% + 2rem);
-}
-
-.timeline-marker {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  z-index: 2;
+  padding-right: 0.5rem;
 }
 
-.marker-dot {
-  width: 16px;
-  height: 16px;
-  background: var(--vt-c-indigo);
-  border: 3px solid var(--color-background);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px var(--vt-c-indigo);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-@media (prefers-color-scheme: dark) {
-  .marker-dot {
-    background: #42b883;
-    box-shadow: 0 0 0 3px #42b883;
-  }
-}
-
-.timeline-item:hover .marker-dot {
-  transform: scale(1.2);
-  box-shadow: 0 0 0 4px var(--vt-c-indigo), 0 0 20px rgba(44, 62, 80, 0.4);
-}
-
-@media (prefers-color-scheme: dark) {
-  .timeline-item:hover .marker-dot {
-    box-shadow: 0 0 0 4px #42b883, 0 0 20px rgba(66, 184, 131, 0.4);
-  }
-}
-
-.multi-year .marker-line {
-  width: 4px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--vt-c-indigo), rgba(44, 62, 80, 0.3));
-  border-radius: 2px;
-  margin-top: 4px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .multi-year .marker-line {
-    background: linear-gradient(to bottom, #42b883, rgba(66, 184, 131, 0.3));
-  }
+.main-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 100%;
 }
 
 .timeline-card {
   background: var(--color-background-soft);
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
   border: 1px solid var(--color-border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .timeline-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
   .timeline-card:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 }
 
-.timeline-year {
-  margin-bottom: 0.75rem;
+.card-period {
+  margin-bottom: 0.5rem;
 }
 
-.year-badge {
+.period-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
   background: linear-gradient(135deg, var(--vt-c-indigo), #34495e);
   color: white;
-  padding: 0.35rem 0.85rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
 @media (prefers-color-scheme: dark) {
-  .year-badge {
+  .period-badge {
     background: linear-gradient(135deg, #42b883, #2c8a5e);
   }
 }
 
-.year-separator {
+.period-sep {
   opacity: 0.7;
 }
 
-.timeline-title {
-  font-size: 1.25rem;
+.card-title {
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-heading);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
 }
 
-.timeline-description {
-  font-size: 0.95rem;
+.card-description {
+  font-size: 0.8rem;
   color: var(--color-text);
-  line-height: 1.7;
-  margin-bottom: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
 }
 
-.timeline-tags {
+.card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .tag {
   background: var(--color-background-mute);
   color: var(--color-text);
-  padding: 0.25rem 0.65rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
   font-weight: 500;
   border: 1px solid var(--color-border);
+}
+
+/* Center Line */
+.timeline-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.center-line {
+  flex: 1;
+  width: 3px;
+  background: var(--vt-c-indigo);
+  min-height: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .center-line {
+    background: #42b883;
+  }
+}
+
+.center-date {
+  padding: 0.25rem 0;
+}
+
+.date-label {
+  display: inline-block;
+  background: var(--vt-c-indigo);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (prefers-color-scheme: dark) {
+  .date-label {
+    background: #42b883;
+  }
+}
+
+/* Right Side - Projects */
+.timeline-right {
+  display: flex;
+  align-items: flex-start;
+  padding-left: 0.5rem;
+}
+
+.note-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.note-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-background-soft);
+  border-right: 3px solid var(--vt-c-indigo);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px 0 0 6px;
   transition: background-color 0.2s ease;
 }
 
-.tag:hover {
-  background: var(--color-border);
+@media (prefers-color-scheme: dark) {
+  .note-chip {
+    border-right-color: #42b883;
+  }
+}
+
+.note-chip:hover {
+  background: var(--color-background-mute);
+}
+
+.note-text {
+  font-size: 0.8rem;
+  color: var(--color-heading);
+  font-weight: 500;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .timeline-line {
-    left: 20px;
-  }
-
-  .timeline-marker {
-    left: 20px;
-  }
-
-  .timeline-item:nth-child(odd),
-  .timeline-item:nth-child(even) {
-    flex-direction: row;
-    padding-left: 50px;
-    padding-right: 0;
-  }
-
-  .timeline-card {
-    padding: 1.25rem;
+  .timeline-row {
+    grid-template-columns: calc(25% - 30px) 60px 1fr;
+    gap: 0;
   }
 
   .section-heading {
     font-size: 2rem;
   }
 
-  .timeline-title {
-    font-size: 1.1rem;
+  .header-left,
+  .header-right {
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
   }
 
-  .timeline-description {
+  .timeline-card {
+    padding: 0.75rem;
+  }
+
+  .card-title {
     font-size: 0.9rem;
   }
-}
 
-/* Animation on scroll */
-.timeline-item {
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-.timeline-item:nth-child(1) { animation-delay: 0.1s; }
-.timeline-item:nth-child(2) { animation-delay: 0.2s; }
-.timeline-item:nth-child(3) { animation-delay: 0.3s; }
-.timeline-item:nth-child(4) { animation-delay: 0.4s; }
-.timeline-item:nth-child(5) { animation-delay: 0.5s; }
-.timeline-item:nth-child(6) { animation-delay: 0.6s; }
-.timeline-item:nth-child(7) { animation-delay: 0.7s; }
-.timeline-item:nth-child(8) { animation-delay: 0.8s; }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  .card-description {
+    font-size: 0.75rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .date-label {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  .note-chip {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .note-text {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .timeline-row {
+    grid-template-columns: 0 50px 1fr;
+  }
+
+  .timeline-left {
+    display: none;
+  }
+
+  .header-left {
+    display: none;
+  }
+
+  .card-description {
+    display: none;
+  }
+
+  .card-tags {
+    display: none;
   }
 }
 </style>
