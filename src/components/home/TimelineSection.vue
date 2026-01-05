@@ -8,19 +8,19 @@
           v-for="(item, index) in timelineItems"
           :key="index"
           class="timeline-item"
-          :class="{ 'multi-year': item.endYear !== undefined }"
+          :class="{ 'multi-year': item.end !== undefined }"
         >
           <div class="timeline-marker">
             <div class="marker-dot"></div>
-            <div v-if="item.endYear" class="marker-line"></div>
+            <div v-if="item.end" class="marker-line"></div>
           </div>
           <div class="timeline-card">
             <div class="timeline-year">
               <span class="year-badge">
-                {{ item.startYear }}
-                <template v-if="item.endYear">
+                {{ item.start }}
+                <template v-if="item.end">
                   <span class="year-separator">―</span>
-                  {{ item.endYear === 'present' ? '現在' : item.endYear }}
+                  {{ formatDate(item.end) }}
                 </template>
               </span>
             </div>
@@ -44,46 +44,66 @@
 
 <script setup lang="ts">
 interface TimelineItem {
-  startYear: number
-  endYear?: number | 'present'
+  start: string
+  end?: string | 'present'
   title: string
   description: string
   tags: string[]
 }
 
+const formatDate = (date: string | 'present'): string => {
+  if (date === 'present') return '現在'
+  return date
+}
+
 const timelineItems: TimelineItem[] = [
   {
-    startYear: 2020,
+    start: '2024/04',
     title: 'プログラミング学習開始',
     description: 'HTML/CSS/JavaScriptの基礎を学び、Web開発の世界に足を踏み入れました。',
     tags: ['HTML', 'CSS', 'JavaScript']
   },
   {
-    startYear: 2021,
-    title: 'Webアプリケーション開発',
-    description: 'Vue.jsを用いたSPAの開発を開始。フロントエンド技術を深く学びました。',
-    tags: ['Vue.js', 'TypeScript', 'REST API']
+    start: '2024/08',
+    end: 'present',
+    title: 'Discord Bot開発',
+    description: 'Pythonを用いたDiscord Botの開発を開始。ボットの機能拡張や運用に取り組みました。',
+    tags: ['Python', 'discord.py', '']
   },
   {
-    startYear: 2022,
-    endYear: 2023,
-    title: 'フルスタック開発プロジェクト',
-    description: 'バックエンドにNode.js、フロントエンドにVue.jsを使用した本格的なWebサービスを開発。',
-    tags: ['Node.js', 'Vue.js', 'MongoDB', 'Express']
+    start: '2024/11',
+    end: '2025/01',
+    title: 'チーム開発プロジェクト',
+    description: 'サークル内ハッカソンにて、ReactとFirebaseを使用したチーム開発プロジェクトに参加しました。',
+    tags: ['React', 'Firebase', 'Git']
   },
   {
-    startYear: 2023,
-    endYear: 'present',
+    start: '2025/01',
+    end: '2025/05',
+    title: '講習会設計・運営',
+    description: 'javaScript, HTML/CSS, Gitの基礎を教える講習会の設計と運営を担当しました。',
+    tags: ['markdown']
+  },
+  {
+    start: '2025/03',
+    end: 'present',
     title: 'DevOps & インフラ構築',
     description: 'Kubernetes、Dockerを活用したコンテナオーケストレーションとCI/CDパイプラインの構築に取り組んでいます。',
-    tags: ['Kubernetes', 'Docker', 'CI/CD', 'Linux']
+    tags: ['Kubernetes', 'Docker', 'Linux(ubuntu)']
   },
   {
-    startYear: 2024,
-    endYear: 'present',
+    start: '2025/09',
+    end: 'present',
     title: 'ポートフォリオサイト開発',
-    description: '本サイトの開発。モダンなVue 3 + TypeScript + Viteスタックで構築。',
-    tags: ['Vue 3', 'TypeScript', 'Vite', 'Responsive Design']
+    description: '本サイトの開発。Vue 3 + TypeScript + Viteスタックで構築。',
+    tags: ['Vue 3', 'TypeScript', 'Vite']
+  },
+  {
+    start: '2025/10',
+    end: '2025/12',
+    title: 'サークル内会計サイト開発',
+    description: 'サークルの会計管理を効率化するためのWebアプリケーションを開発。Vue 3とSupabaseを使用。',
+    tags: ['Vue 3', 'Supabase', 'FastAPI']
   }
 ]
 </script>
