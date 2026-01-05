@@ -225,7 +225,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-width: 100%;
+  width: 100%;
 }
 
 .timeline-card {
@@ -235,6 +235,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
   border: 1px solid var(--color-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
 }
 
 .timeline-card:hover {
@@ -353,12 +354,14 @@ const timelineRows = computed<TimelineRow[]>(() => {
   display: flex;
   align-items: flex-start;
   padding-left: 0.5rem;
+  width: 100%;
 }
 
 .note-items {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: flex-end;
 }
 
 .note-chip {
