@@ -95,8 +95,12 @@ const dateToSortKey = (dateStr: string): number => {
 }
 
 const timelineNotes: TimelineNote[] = [
-  { date: '2024/04', text: '大学入学' },
+  { date: '2024/04', text: '青山学院大学入学' },
   { date: '2024/04', text: 'PiedPiper 青山テック愛好会 入会' },
+  { date: '2024/11', text: 'PiedPiper 青山テック愛好会 副代表就任' },
+  { date: '2025/03', text: 'VPSサーバ契約' },
+  { date: '2025/04', text: 'PiedPiper 青山テック愛好会 代表就任' },
+  { date: '2025/09', text: 'ドメイン(chrom.jp)取得' }
 ]
 
 const timelineItems: TimelineItem[] = [
