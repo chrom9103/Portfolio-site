@@ -39,7 +39,7 @@ watch(
 .marked-content :deep(h3) {
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #222;
+  color: var(--color-heading);
 }
 
 .marked-content :deep(h1) {
@@ -71,7 +71,7 @@ watch(
 }
 
 .marked-content :deep(code) {
-  background-color: #f5f5f5;
+  background-color: var(--color-background-mute);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-family: 'Consolas', 'Monaco', monospace;
@@ -91,7 +91,8 @@ watch(
   border-left: 4px solid #1976d2;
   padding-left: 1rem;
   margin: 1rem 0;
-  color: #666;
+  color: var(--color-text);
+  opacity: 0.8;
   font-style: italic;
 }
 
