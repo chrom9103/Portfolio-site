@@ -132,7 +132,7 @@ const timelineItems: TimelineItem[] = [
     tags: ['markdown']
   },
   {
-    start: '2025/03',
+    start: '2025/04',
     end: 'present',
     title: 'DevOps & インフラ構築',
     description: 'Kubernetes、Dockerを活用したコンテナオーケストレーションとCI/CDパイプラインの構築に取り組んでいます。',
