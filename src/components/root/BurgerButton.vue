@@ -44,7 +44,7 @@ defineEmits<{
 .burger span {
   display: block;
   height: 2px;
-  background: #111827;
+  background: var(--color-heading);
   margin: 3px 0;
   border-radius: 2px;
   width: 18px;
