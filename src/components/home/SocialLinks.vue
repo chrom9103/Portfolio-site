@@ -46,7 +46,7 @@
 
 .social-icon:hover {
   transform: translateY(-5px);
-  color: #6a0dad;
+  color: var(--color-accent);
 }
 
 @keyframes slide-in-bottom {

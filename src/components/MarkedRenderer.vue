@@ -44,7 +44,7 @@ watch(
 
 .marked-content :deep(h1) {
   font-size: 1.75rem;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid var(--color-link);
   padding-bottom: 0.5rem;
 }
 
@@ -88,7 +88,7 @@ watch(
 }
 
 .marked-content :deep(blockquote) {
-  border-left: 4px solid #1976d2;
+  border-left: 4px solid var(--color-link);
   padding-left: 1rem;
   margin: 1rem 0;
   color: var(--color-text);
@@ -97,7 +97,7 @@ watch(
 }
 
 .marked-content :deep(a) {
-  color: #1976d2;
+  color: var(--color-link);
   text-decoration: none;
 }
 

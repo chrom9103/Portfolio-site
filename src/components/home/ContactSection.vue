@@ -52,15 +52,15 @@
 }
 
 .primary {
-  background-color: #f3f3f3;
-  color: rgb(0, 0, 0);
+  background-color: var(--color-background-mute);
+  color: var(--color-heading);
   border: 2px solid transparent;
 }
 
 .primary:hover {
-  background-color: #bebebe;
+  background-color: var(--color-background-soft);
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 767px) {

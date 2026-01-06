@@ -34,9 +34,9 @@ defineEmits<{
   position: absolute;
   right: 8px;
   top: 56px;
-  background: white;
-  border: 1px solid #e6e6e6;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1);
   border-radius: 8px;
   padding: 0.5rem;
   display: flex;
@@ -51,12 +51,12 @@ defineEmits<{
   width: 100%;
   padding: 0.5rem;
   text-decoration: none;
-  color: #111827;
+  color: var(--color-heading);
   border-radius: 4px;
 }
 
 .mobile-link:focus,
 .mobile-link:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--color-background-mute);
 }
 </style>

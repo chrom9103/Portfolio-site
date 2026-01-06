@@ -198,7 +198,7 @@ const works = [
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background-color: #6a0dad;
+  background-color: var(--color-accent);
   color: white;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
@@ -312,7 +312,7 @@ const works = [
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #6a0dad;
+  background-color: var(--color-accent);
   color: white;
   padding: 0.8rem 1.2rem;
   border-radius: 8px;

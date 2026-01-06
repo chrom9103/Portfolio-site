@@ -30,7 +30,7 @@ defineProps<Props>()
 .skill-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #6a0dad;
+  color: var(--color-heading);
   margin-bottom: 1rem;
 }
 

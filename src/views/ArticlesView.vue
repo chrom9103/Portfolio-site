@@ -57,7 +57,7 @@ function formatDate(dateString: string): string {
   font-size: 2rem;
   margin-bottom: 2rem;
   color: var(--color-heading);
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid var(--color-link);
   padding-bottom: 0.5rem;
 }
 
@@ -92,13 +92,13 @@ function formatDate(dateString: string): string {
 
 .article-link:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: #1976d2;
+  border-color: var(--color-link);
 }
 
 .article-title {
   font-size: 1.25rem;
   margin: 0 0 0.5rem 0;
-  color: #1976d2;
+  color: var(--color-link);
 }
 
 .article-summary {
@@ -128,7 +128,7 @@ function formatDate(dateString: string): string {
 
 .tag {
   background-color: var(--color-background-mute);
-  color: #1976d2;
+  color: var(--color-link);
   padding: 0.2rem 0.6rem;
   border-radius: 1rem;
   font-size: 0.8rem;

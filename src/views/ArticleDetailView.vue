@@ -94,7 +94,7 @@ function formatDate(dateString: string): string {
 
 .tag {
   background-color: var(--color-background-mute);
-  color: #1976d2;
+  color: var(--color-link);
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.85rem;
@@ -115,7 +115,7 @@ function formatDate(dateString: string): string {
 
 .article-content :deep(h1) {
   font-size: 1.75rem;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid var(--color-link);
   padding-bottom: 0.5rem;
 }
 
@@ -173,7 +173,7 @@ function formatDate(dateString: string): string {
 }
 
 .article-content :deep(blockquote) {
-  border-left: 4px solid #1976d2;
+  border-left: 4px solid var(--color-link);
   padding-left: 1rem;
   margin: 1rem 0;
   color: var(--color-text);
@@ -182,7 +182,7 @@ function formatDate(dateString: string): string {
 }
 
 .article-content :deep(a) {
-  color: #1976d2;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -202,7 +202,7 @@ function formatDate(dateString: string): string {
 }
 
 .back-link {
-  color: #1976d2;
+  color: var(--color-link);
   text-decoration: none;
 }
 
