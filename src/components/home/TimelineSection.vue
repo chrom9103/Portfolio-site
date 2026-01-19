@@ -216,6 +216,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
   animation: fadeIn 0.5s ease forwards;
   width: 100%;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .timeline-row:nth-child(2) { animation-delay: 0.05s; }
@@ -338,6 +339,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: stretch;
   position: relative;
 }
 
@@ -378,9 +380,10 @@ const timelineRows = computed<TimelineRow[]>(() => {
 /* Right Side - Projects */
 .timeline-right {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding-left: 0.5rem;
   width: 100%;
+  min-height: 60px;
 }
 
 .note-items {
