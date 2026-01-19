@@ -125,10 +125,14 @@ import SocialLinks from './SocialLinks.vue'
   animation: scale-up 1.5s ease-out;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .hero-section {
     padding: 2.5rem 0;
     gap: 4.5rem;
+  }
+
+  .hero-image {
+    display: none;
   }
 
   .hero-title {
