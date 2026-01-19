@@ -26,7 +26,7 @@ const skills = [
   },
   {
     title: 'DevOps / Infra',
-    skills: 'Kubernetes, Docker, MicroK8s, Linux'
+    skills: 'Kubernetes(MicroK8s), Docker, Linux(Ubuntu)'
   }
 ]
 </script>
