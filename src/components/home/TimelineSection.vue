@@ -52,6 +52,16 @@
                 <span v-for="tag in item.tags" :key="tag" class="tag">{{ tag }}</span>
               </div>
             </div>
+            <!-- 小画面用：右側にノート表示 -->
+            <div v-if="row.notes.length > 0" class="note-items note-items-mobile">
+              <div
+                v-for="(note, idx) in row.notes"
+                :key="idx"
+                class="note-chip"
+              >
+                <span class="note-text">{{ note.text }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -380,6 +390,10 @@ const timelineRows = computed<TimelineRow[]>(() => {
   align-items: flex-end;
 }
 
+.note-items-mobile {
+  display: none;
+}
+
 .note-chip {
   display: inline-flex;
   align-items: center;
@@ -454,29 +468,43 @@ const timelineRows = computed<TimelineRow[]>(() => {
   }
 
   .timeline-container {
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
   }
 
   .timeline-row {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: 40px 1fr;
+    gap: 0.5rem;
   }
 
   .timeline-left {
-    order: 2;
-    justify-content: flex-start;
-    padding-right: 0;
-    padding-left: 0;
-  }
-
-  .timeline-center {
     display: none;
   }
 
+  .timeline-center {
+    display: flex;
+  }
+
+  .center-line {
+    min-height: 15px;
+  }
+
+  .date-label {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+
   .timeline-right {
-    order: 1;
     padding-left: 0;
+    width: 100%;
+  }
+
+  .note-items-mobile {
+    display: flex;
+  }
+
+  .main-items {
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .note-items {
@@ -484,6 +512,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 0.35rem;
+    margin-top: 0.5rem;
   }
 
   .note-chip {
@@ -505,6 +534,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
 
   .timeline-card {
     padding: 0.75rem;
+    width: 100%;
   }
 
   .card-title {
