@@ -460,7 +460,7 @@ const timelineRows = computed<TimelineRow[]>(() => {
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 748px) {
   .timeline-section {
     padding: 2rem 0;
   }
