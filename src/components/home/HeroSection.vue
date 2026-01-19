@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="hero-image">
-      <img src="../../assets/IMG_0051.jpg" alt="chrom profile" class="profile-image">
+      <img src="../../assets/profile-img.jpg" alt="chrom profile" class="profile-image">
     </div>
   </section>
 </template>
