@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="left">
       <RouterLink to="/" class="logo-link">
-        <img src="../../assets/IMG_0051.jpg" alt="chrom logo" class="logo" />
+        <img src="../../assets/profile-img.jpg" alt="chrom logo" class="logo" />
         <h1 class="title">{{ title }}</h1>
       </RouterLink>
     </div>
