@@ -52,8 +52,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
 .main-content {
-  padding: 2rem;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
