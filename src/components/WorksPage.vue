@@ -47,7 +47,7 @@ const works = [
     ['Vue.js', 'microk8s', 'Monaco Editor'],
     ['リアルタイムコード実行', '直感的なUI', 'ソース管理(開発中)'],
     new URL('../assets/jsPlayground_img.png', import.meta.url).href,
-    'https://www.chrom.jp/works/playground/',
+    'https://www.chrom.jp/playground/',
     'https://github.com/chrom9103/JS_online-editer'
   ),
   new Work(
