@@ -18,7 +18,9 @@
         </div>
       </header>
 
-      <div class="article-content" v-html="renderedContent"></div>
+      <div class="article-content">
+        <MarkedRenderer :markdown="article.content" />
+      </div>
     </div>
 
     <div v-else class="not-found">
@@ -31,7 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'
+import MarkedRenderer from '../components/MarkedRenderer.vue'
 import BaseLayout from '../components/BaseLayout.vue'
 import { getArticleByUid } from '../components/articles/articleLoader'
 
@@ -40,10 +42,6 @@ const uid = computed(() => route.params.uid as string)
 
 const article = computed(() => getArticleByUid(uid.value))
 
-const renderedContent = computed(() => {
-  if (!article.value) return ''
-  return marked(article.value.content)
-})
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString)
@@ -65,19 +63,20 @@ function formatDate(dateString: string): string {
 .article-header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .article-title {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-heading);
 }
 
 .article-meta {
   display: flex;
   gap: 1.5rem;
-  color: #666;
+  color: var(--color-text);
+  opacity: 0.8;
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -94,8 +93,8 @@ function formatDate(dateString: string): string {
 }
 
 .tag {
-  background-color: #e8f4fd;
-  color: #1976d2;
+  background-color: var(--color-background-mute);
+  color: var(--color-link);
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.85rem;
@@ -103,7 +102,7 @@ function formatDate(dateString: string): string {
 
 .article-content {
   line-height: 1.8;
-  color: #333;
+  color: var(--color-text);
 }
 
 .article-content :deep(h1),
@@ -111,12 +110,12 @@ function formatDate(dateString: string): string {
 .article-content :deep(h3) {
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #222;
+  color: var(--color-heading);
 }
 
 .article-content :deep(h1) {
   font-size: 1.75rem;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid var(--color-link);
   padding-bottom: 0.5rem;
 }
 
@@ -143,7 +142,7 @@ function formatDate(dateString: string): string {
 }
 
 .article-content :deep(code) {
-  background-color: #f5f5f5;
+  background-color: var(--color-background-mute);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-family: 'Consolas', 'Monaco', monospace;
@@ -165,16 +164,25 @@ function formatDate(dateString: string): string {
   color: inherit;
 }
 
+.article-content :deep(strong),
+.article-content :deep(b) {
+  font-weight: 700 !important;
+}
+.article-content :deep(strong) {
+  font-weight: 700 !important;
+}
+
 .article-content :deep(blockquote) {
-  border-left: 4px solid #1976d2;
+  border-left: 4px solid var(--color-link);
   padding-left: 1rem;
   margin: 1rem 0;
-  color: #666;
+  color: var(--color-text);
+  opacity: 0.8;
   font-style: italic;
 }
 
 .article-content :deep(a) {
-  color: #1976d2;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -189,12 +197,12 @@ function formatDate(dateString: string): string {
 
 .not-found p {
   font-size: 1.2rem;
-  color: #666;
+  color: var(--color-text);
   margin-bottom: 1rem;
 }
 
 .back-link {
-  color: #1976d2;
+  color: var(--color-link);
   text-decoration: none;
 }
 

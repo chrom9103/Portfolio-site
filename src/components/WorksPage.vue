@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 
 // Workクラスを定義
 class Work {
@@ -110,7 +109,7 @@ const works = [
               </div>
 
               <div class="card-actions">
-                <a v-if="work.playLink":href="work.playLink" target="_blank" rel="noopener noreferrer" class="play-button">
+                <a v-if="work.playLink" :href="work.playLink" target="_blank" rel="noopener noreferrer" class="play-button">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link mr-2"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
                   Play
                 </a>
@@ -199,7 +198,7 @@ const works = [
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background-color: #6a0dad;
+  background-color: var(--color-accent);
   color: white;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
@@ -313,7 +312,7 @@ const works = [
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #6a0dad;
+  background-color: var(--color-accent);
   color: white;
   padding: 0.8rem 1.2rem;
   border-radius: 8px;

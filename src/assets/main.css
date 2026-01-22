@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
 a,
 .green {
   text-decoration: none;
@@ -14,13 +19,9 @@ a,
   padding: 3px;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: block;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
+#app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

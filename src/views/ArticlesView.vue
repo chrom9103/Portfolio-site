@@ -56,15 +56,15 @@ function formatDate(dateString: string): string {
 .page-title {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #333;
-  border-bottom: 2px solid #1976d2;
+  color: var(--color-heading);
+  border-bottom: 2px solid var(--color-link);
   padding-bottom: 0.5rem;
 }
 
 .no-articles {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: var(--color-text);
 }
 
 .article-list {
@@ -80,8 +80,8 @@ function formatDate(dateString: string): string {
 .article-link {
   display: block;
   padding: 1.5rem;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
+  background-color: var(--color-background-soft);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   text-decoration: none;
   color: inherit;
@@ -92,17 +92,17 @@ function formatDate(dateString: string): string {
 
 .article-link:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: #1976d2;
+  border-color: var(--color-link);
 }
 
 .article-title {
   font-size: 1.25rem;
   margin: 0 0 0.5rem 0;
-  color: #1976d2;
+  color: var(--color-link);
 }
 
 .article-summary {
-  color: #666;
+  color: var(--color-text);
   margin: 0 0 1rem 0;
   line-height: 1.6;
 }
@@ -110,7 +110,8 @@ function formatDate(dateString: string): string {
 .article-meta {
   display: flex;
   gap: 1.5rem;
-  color: #888;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
 }
@@ -126,8 +127,8 @@ function formatDate(dateString: string): string {
 }
 
 .tag {
-  background-color: #e8f4fd;
-  color: #1976d2;
+  background-color: var(--color-background-mute);
+  color: var(--color-link);
   padding: 0.2rem 0.6rem;
   border-radius: 1rem;
   font-size: 0.8rem;

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import BaseLayout from '../components/BaseLayout.vue'
-import PageLayout from '../components/Page.vue'
+import PageLayout from '../components/HomePage.vue'
 </script>
 
 <style scoped> 
