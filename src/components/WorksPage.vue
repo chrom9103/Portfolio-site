@@ -43,8 +43,8 @@ const works = [
     'JavaScript Playground',
     'Webアプリケーション',
     'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
-    ['Vue.js', 'microk8s', 'Monaco Editor'],
-    ['リアルタイムコード実行', '直感的なUI', 'ソース管理(開発中)'],
+    ['Vue.js', 'golang', 'sandboxed-js'],
+    ['リアルタイムコード実行', '直感的なUI', 'サンドボックス環境'],
     new URL('../assets/jsPlayground_img.png', import.meta.url).href,
     'https://www.chrom.jp/playground/',
     'https://github.com/chrom9103/JS_online-editer'
