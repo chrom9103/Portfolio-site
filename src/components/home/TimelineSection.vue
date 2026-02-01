@@ -138,7 +138,7 @@ const timelineItems: TimelineItem[] = [
     start: '2025/01',
     end: '2025/05',
     title: '講習会設計・運営',
-    description: 'javaScript, HTML/CSS, Gitの基礎を教える講習会の設計と運営を担当しました。',
+    description: 'JavaScript, HTML/CSS, Gitの基礎を教える講習会の設計と運営を担当しました。',
     tags: ['markdown']
   },
   {
