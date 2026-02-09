@@ -22,7 +22,7 @@ const skills = [
   },
   {
     title: 'Backend',
-    skills: 'Node.js, Python'
+    skills: 'Python, Node.js'
   },
   {
     title: 'DevOps / Infra',
