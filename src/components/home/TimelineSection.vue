@@ -161,6 +161,13 @@ const timelineItems: TimelineItem[] = [
     title: 'サークル内会計サイト開発',
     description: 'サークルの会計管理を効率化するためのWebアプリケーションを開発。Vue 3とSupabaseを使用。',
     tags: ['Vue 3', 'Supabase', 'FastAPI']
+  },
+  {
+    start: '2026/01',
+    end: '2026/02',
+    title: 'JavaScript実行環境開発',
+    description: 'VScodeライクのJavaScript実行環境を開発。コード実行時にサンドボックス環境を構築し、セキュリティを確保。',
+    tags: ['Vue 3', 'Go']
   }
 ]
 
