@@ -29,6 +29,17 @@ const works = [
   ),
   new Work(
     1,
+    'Digitartテクノロジー愛好会 ホームページ',
+    'Webアプリケーション',
+    'A website for the Digitart Technology Association, a student organization at AGU. The site provides information about the club, its activities, and how to join.',
+    ['React', 'Cloudflare Pages'],
+    ['活動紹介', '入会案内'],
+    new URL('../assets/digitart_img.png', import.meta.url).href,
+    'https://www.digitart.jp/',
+    'https://github.com/digitart-tech-assoc/Digitart_HP'
+  ),
+  new Work(
+    2,
     'CIRCLE',
     'Webアプリケーション',
     '"Community Income Reporting Confirmation Log Engine". Accounting system with authorization authentication function on Discord.',
@@ -39,7 +50,7 @@ const works = [
     'https://github.com/chrom9103/CIRCLE'
   ),
   new Work(
-    2,
+    3,
     'JavaScript Playground',
     'Webアプリケーション',
     'A web-based code editor for JavaScript. This project demonstrates real-time code execution and a simple, intuitive user interface.',
@@ -50,7 +61,7 @@ const works = [
     'https://github.com/chrom9103/JS_online-editer'
   ),
   new Work(
-    3,
+    4,
     'PiedPiper-bot',
     'Discord Bot (utility)',
     'A Python bot for discord. This project includes features such as collecting and analyzing Discord user activity logs and granting permissions.',
@@ -61,7 +72,7 @@ const works = [
     'https://github.com/chrom9103/PiedPiper_bot'
   ),
   new Work(
-    4,
+    5,
     'QRcode-destroyer',
     'webアプリケーション',
     'A web application for destroying QR codes. It includes the knowledge necessary to destroy QR codes.',
