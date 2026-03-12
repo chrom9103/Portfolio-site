@@ -168,6 +168,13 @@ const timelineItems: TimelineItem[] = [
     title: 'JavaScript実行環境開発',
     description: 'VScodeライクのJavaScript実行環境を開発。コード実行時にサンドボックス環境を構築し、セキュリティを確保。',
     tags: ['Vue 3', 'Go']
+  },
+  {
+    start: '2026/03',
+    end: '2026/03',
+    title: 'プレスリリースエディタ開発',
+    description: 'PR Timesのハッカソンにて、プレスリリースの作成を支援するエディタを開発。自然言語処理を活用して、文章の改善提案やタグ付け機能を実装。  ',
+    tags: ['React', 'Go', 'AWS(EC2,S3)']
   }
 ]
 
