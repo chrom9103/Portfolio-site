@@ -5,7 +5,7 @@
       <p class="contact-text">
         下記のメールアドレスにお気軽にご連絡ください
       </p>
-      <a href="mailto:info@chrom.jp" class="cta-button primary">info@chrom.jp</a>
+      <a href="mailto:a8124074@aoyama.ac.jp" class="cta-button primary">a8124074@aoyama.ac.jp</a>
     </div>
   </section>
 </template>
